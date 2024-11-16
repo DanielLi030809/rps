@@ -37,27 +37,6 @@ function displayScore(humanCount, computerCount) {
     computerScore.textContent = `Computer: ${computerCount}`;
 }
 
-/* Simulates a game of rock, paper, scissors with 5 rounds */
-function playGame(humanChoice) {
-    let count = 0;
-    let humanScore = 0;
-    let computerScore = 0;
-    while (count < 5) {
-        let humanChoice = getHumanChoice();
-        let result = playRound(humanChoice);
-        if (result == "human") {
-            humanScore++;
-        } else if (result == "computer") {
-            computerScore++;
-        }
-        count++;
-    }
-    if (humanScore > computerScore) {
-        return "Winner: You";
-    } else {
-        return "Winner: Computer";
-    }
-}
 
 /* Create score display elments and add them to body */
 const userScore = document.createElement("div");
@@ -70,22 +49,22 @@ const buttons = document.querySelectorAll("button");
 
 let humanCount = 0;
 let computerCount = 0;
+displayScore(humanCount, computerCount);
 /* When I user clicks a button, we pass that option into playRound function */
 buttons.forEach((button)=> {
     button.addEventListener("click", () => {
         let userChoice = button.textContent;
         playRound(userChoice);
-        displayScore(humanCount, computerCount);
         if (humanCount === 5) {
             alert("You won!");
             humanCount = 0;
             computerCount = 0;
         } else if (computerCount === 5) {
             alert("Computer won!");
-            displayScore(0, 0);
             humanCount = 0;
             computerCount = 0;
         }
+        displayScore(humanCount, computerCount);
     });
 });
 
