@@ -2,11 +2,11 @@
 function getComputerChoice() {
     let num = Math.random();
     if (num < 1 / 3) {
-        return 'rock'
+        return 'Rock'
     } else if (num < 2 / 3) {
-        return 'scissors'
+        return 'Scissors'
     } else {
-        return 'paper'
+        return 'Paper'
     }
 }
 
@@ -19,29 +19,32 @@ function getHumanChoice() {
 /* Simulates a round of rock, paper, and scissors */
 function playRound(humanChoice) {
     let computerChoice = getComputerChoice();
-    if (humanChoice == computerChoice) {
-        return "tie";
-    }
-    if (humanChoice == 'rock' && computerChoice == 'scissors') {
-        return "human";
-    } else if (humanChoice == 'paper' && computerChoice == 'rock') {
-        return "human";
-    } else if (humanChoice == 'scissors' && computerChoice == 'paper') {
-        return "human";
-    } else {
-        return "computer";
+    if (humanChoice != computerChoice) {
+        if (humanChoice == 'Rock' && computerChoice == 'Scissors') {
+            humanCount++;
+        } else if (humanChoice == 'Paper' && computerChoice == 'Rock') {
+            humanCount++;
+        } else if (humanChoice == 'Scissors' && computerChoice == 'Paper') {
+            humanCount++;
+        } else {
+            computerCount++;
+        }
     }
 }
 
+function displayScore(humanCount, computerCount) {
+    userScore.textContent = `You: ${humanCount}`;
+    computerScore.textContent = `Computer: ${computerCount}`;
+}
+
 /* Simulates a game of rock, paper, scissors with 5 rounds */
-function playGame() {
+function playGame(humanChoice) {
     let count = 0;
     let humanScore = 0;
     let computerScore = 0;
     while (count < 5) {
         let humanChoice = getHumanChoice();
-        let computerChoice = getComputerChoice();
-        let result = playRound(humanChoice, computerChoice);
+        let result = playRound(humanChoice);
         if (result == "human") {
             humanScore++;
         } else if (result == "computer") {
@@ -56,16 +59,38 @@ function playGame() {
     }
 }
 
-/* Select button elements and store them as a node list */
-const buttons = document.querySelector("button");
+/* Create score display elments and add them to body */
+const userScore = document.createElement("div");
+const computerScore = document.createElement("div");
+document.body.appendChild(userScore);
+document.body.appendChild(computerScore);
 
+/* Select button elements and store them as a node list */
+const buttons = document.querySelectorAll("button");
+
+let humanCount = 0;
+let computerCount = 0;
 /* When I user clicks a button, we pass that option into playRound function */
 buttons.forEach((button)=> {
     button.addEventListener("click", () => {
         let userChoice = button.textContent;
         playRound(userChoice);
+        displayScore(humanCount, computerCount);
+        if (humanCount === 5) {
+            alert("You won!");
+            humanCount = 0;
+            computerCount = 0;
+        } else if (computerCount === 5) {
+            alert("Computer won!");
+            displayScore(0, 0);
+            humanCount = 0;
+            computerCount = 0;
+        }
     });
 });
+
+
+
 
 
 
