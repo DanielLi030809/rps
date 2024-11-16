@@ -17,7 +17,8 @@ function getHumanChoice() {
 }
 
 /* Simulates a round of rock, paper, and scissors */
-function playRound(humanChoice, computerChoice) {
+function playRound(humanChoice) {
+    let computerChoice = getComputerChoice();
     if (humanChoice == computerChoice) {
         return "tie";
     }
@@ -54,6 +55,19 @@ function playGame() {
         return "Winner: Computer";
     }
 }
-console.log(playGame());
+
+/* Select button elements and store them as a node list */
+const buttons = document.querySelector("button");
+
+/* When I user clicks a button, we pass that option into playRound function */
+buttons.forEach((button)=> {
+    button.addEventListener("click", () => {
+        let userChoice = button.textContent;
+        playRound(userChoice);
+    });
+});
+
+
+
 
 
